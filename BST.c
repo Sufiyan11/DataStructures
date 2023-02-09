@@ -21,6 +21,54 @@ struct node* insertnode(struct node *root,int val)
 	if(root->val<val) root->right=insertnode(root->right,val);
 	return root;
 }
+
+void print_LPR(struct node *root)
+{
+	if(!root) return;
+	if(root->left!=NULL) print_LPR(root->left);	
+	printf("%d ",root->val);
+	if(root->right!=NULL) print_LPR(root->right);
+}
+void print_LRP(struct node *root)
+{
+        if(!root) return;
+        if(root->left!=NULL) print_LRP(root->left);
+        if(root->right!=NULL) print_LRP(root->right);
+	printf("%d ",root->val);
+}
+void print_PLR(struct node *root)
+{
+        if(!root) return;
+	 printf("%d ",root->val);
+	if(root->left!=NULL) print_PLR(root->left);
+        if(root->right!=NULL) print_PLR(root->right);
+}
+
+struct node* deletenode(struct node *root,int key)
+{
+	struct node *t;
+	if(!root) return root;
+	if(root->val>key) root->left=deletenode(root->left,key);
+	else if(root->val<key) root->right=deletenode(root->right,key);
+	else{
+                if(root->left==NULL){
+                        t=root->right;
+                        free(root);
+                        return t;
+                }
+                else if(root->right==NULL){
+                        t=root->left;
+                        free(root);
+                        return t;
+                }
+                else{
+                        t=findmin(root->right);
+                        root->val=t->val;
+                        root->right=deletenode(root->right,t->val);
+                }
+        }
+	return root;
+}
 struct node* findnode(struct node *root,int key)
 {
 	struct node *temp=root;
@@ -56,52 +104,6 @@ struct node*  successor(struct node *root)
 {
         if(!root || root->right==NULL) return root;
         return findmin(root->right);
-}
-void print_LPR(struct node *root)
-{
-	if(!root) return;
-	if(root->left!=NULL) print_LPR(root->left);	
-	printf("%d ",root->val);
-	if(root->right!=NULL) print_LPR(root->right);
-}
-void print_LRP(struct node *root)
-{
-        if(!root) return;
-        if(root->left!=NULL) print_LRP(root->left);
-        if(root->right!=NULL) print_LRP(root->right);
-	printf("%d ",root->val);
-}
-void print_PLR(struct node *root)
-{
-        if(!root) return;
-	 printf("%d ",root->val);
-	if(root->left!=NULL) print_PLR(root->left);
-        if(root->right!=NULL) print_PLR(root->right);
-}
-struct node* deletenode(struct node *root,int key)
-{
-	struct node *t;
-	if(!root) return root;
-	if(root->val>key) root->left=deletenode(root->left,key);
-	else if(root->val<key) root->right=deletenode(root->right,key);
-	else{
-                if(root->left==NULL){
-                        t=root->right;
-                        free(root);
-                        return t;
-                }
-                else if(root->right==NULL){
-                        t=root->left;
-                        free(root);
-                        return t;
-                }
-                else{
-                        t=findmin(root->right);
-                        root->val=t->val;
-                        root->right=deletenode(root->right,t->val);
-                }
-        }
-	return root;
 }
 int main()
 {
