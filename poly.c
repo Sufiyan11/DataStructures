@@ -11,6 +11,7 @@ struct poly* polynode(int val,int exp)
         h->val=val;
         h->exp=exp;
         h->next=NULL;
+	return h;
 }
 struct poly* polynomial(int n)
 {
